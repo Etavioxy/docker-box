@@ -29,10 +29,11 @@ router.get('/workspace/:id', async (req, res) => {
 });
 
 router.post('/workspace', async (req, res) => {
-  const {name, user_id} = req.body
+  const user_id = req.auth.userId;
+  const {name} = req.body
   const createAt = new Date().toISOString();
   //Date.parse
-	await models.workspace.create({
+  await models.workspace.create({
     name,
     user_id,
     createAt

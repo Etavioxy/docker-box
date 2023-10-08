@@ -1,6 +1,10 @@
 {
   "port": 3000,
-  "registry": "http://app.halzi.one:5000",
+  "registry": "https://registry.halzi.one:5000",
+  "frontend": {
+    "listen": true,
+    "port": 5173
+  },
   "dirs": {
     "workspace": "./uploads",
     "share": "./shares",
