@@ -7,6 +7,7 @@ const router = express.Router();
 router.get('/registry/*', async (req, res) => {
   try {
     const url = path.join(config.registry, req.params[0]); // "https://registry.halzi.one:5000"
+    console.log('/registry/* fetch', url);
     const response = await fetch(url);
     const data = await response.json();
 

@@ -54,7 +54,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from 'vue-router'
-import * as auth from "../utils/api";
+import * as api from "../utils/api";
 import config from "../config";
 
 const router = useRouter()
@@ -91,9 +91,9 @@ async function submit(event) {
 
   try {
     if ( signup.value===true ) {
-      await auth.signup(email.value, password.value);
+      await api.signup(email.value, password.value);
     }
-    await auth.login(email.value, password.value);
+    await api.login(email.value, password.value);
     console.log('redirect',redirect);
     router.push({ path: redirect });
   } catch (e) {

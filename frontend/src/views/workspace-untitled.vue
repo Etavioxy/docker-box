@@ -1,10 +1,43 @@
 <template>
   
   <button @click="getList">Get Workspace List</button>
+  <input type="text" v-model="title">
   <button @click="createWorkspace">Create Workspace</button>
 
+  {{list}}
   <ul>
-    {{list}}
+    <li v-for="item in list" :key="item.id">
+      <p>Name: {{ item.name }}</p>
+      <p>User ID: {{ item.user_id }}</p>
+      <p>Status: {{ item.status }}</p>
+      <p>Created at: {{ item.createdAt }}</p>
+      <p>Removed at: {{ item.removedAt }}</p>
+      <p>Updated at: {{ item.updatedAt }}</p>
+      <button @click="enter(item.id)">enter</button>
+    </li>
+  </ul>
+
+  <ul>
+    <li v-for="item in list" :key="item.id">
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <p>Name:</p>
+          <p>User ID:</p>
+          <p>Status:</p>
+          <p>Created at:</p>
+          <p>Removed at:</p>
+          <p>Updated at:</p>
+        </div>
+        <div>
+          <p>{{ item.name }}</p>
+          <p>{{ item.user_id }}</p>
+          <p>{{ item.status }}</p>
+          <p>{{ item.createdAt }}</p>
+          <p>{{ item.removedAt }}</p>
+          <p>{{ item.updatedAt }}</p>
+        </div>
+      </div>
+    </li>
   </ul>
 </template>
 
@@ -28,10 +61,13 @@ const getList = async () => {
 
 getList();
 
+const title = ref('');
+
 const createWorkspace = async () => {
+  if( !title.value ) return;
   // 定义一个要传递给api_axios.post方法的参数对象
   const params = {
-    name: 'My Workspace',
+    name: title.value,
   };
 
   // 尝试调用api_axios.post方法
@@ -45,5 +81,13 @@ const createWorkspace = async () => {
   }
   await getList();
 };
+
+import { useRoute, useRouter } from 'vue-router'
+const router = useRouter()
+
+function enter(id){
+  console.log('enter', id);
+  router.push({ path: `/workspace/${id}`})
+}
 
 </script>

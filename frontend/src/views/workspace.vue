@@ -1,15 +1,13 @@
 <template>
   <div>
-    <Instance v-if="workspaceId"></Instance>
-    <Untitled v-else></Untitled>
+    <router-view></router-view>
+    <!-- <Instance v-if="workspaceId"></Instance> -->
+    <!-- <Untitled v-else></Untitled> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-
-import Instance from './workspace-instance.vue'
-import Untitled from './workspace-untitled.vue'
 
 import { useRouter } from 'vue-router';
 

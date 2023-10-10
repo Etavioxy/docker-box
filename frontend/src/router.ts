@@ -3,6 +3,9 @@ import Home from './views/home.vue';
 import LoginSignup from './views/login-signup.vue';
 import Image from './views/image.vue';
 import Workspace from './views/workspace.vue';
+import WorkspaceInstance from './views/workspace-instance.vue'
+import WorkspaceUntitled from './views/workspace-untitled.vue'
+
 
 const router = Router.createRouter({
   history: Router.createWebHistory(),
@@ -14,7 +17,6 @@ const router = Router.createRouter({
     },
     {
       path: "/login",
-      name: "Login",
       component: LoginSignup,
       //beforeEnter: (to, from, next) => {
       //  if (store.getters.isLogged) {
@@ -25,7 +27,6 @@ const router = Router.createRouter({
     },
     {
       path: "/images",
-      name: "Image",
       component: Image,
       meta: {
         requiresAuth: true, //??
@@ -33,20 +34,36 @@ const router = Router.createRouter({
     },
     {
       path: "/workspace",
-      name: "Workspace",
       component: Workspace,
       meta: {
         requiresAuth: true, //??
       },
+      children: [
+        {
+          path: "/workspace",
+          component: WorkspaceUntitled,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+        {
+          path: "/workspace/:workspaceId",
+          component: WorkspaceInstance,
+          meta: {
+            requiresAuth: true,
+          },
+        },
+      ]
     },
   ],
 });
 
 import { useAuthStore } from './store';
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   // 检查路由的 meta 字段中是否设置了 requiresAuth: true
   if (to.meta.requiresAuth) {
+    console.log('require auth')
     // 检查登录状态
     if (useAuthStore().isAuthenticated) {
       // 已登录，继续导航

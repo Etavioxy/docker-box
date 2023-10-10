@@ -19,6 +19,9 @@ dist
 /*.md
 !/README.md
 
+# tmp workspace dir
+uploads
+
 test-docker
 sqlite-example-database
 

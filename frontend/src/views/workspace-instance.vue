@@ -1,20 +1,22 @@
 <template>
-    <input type="file" @change="handleFileUpload" multiple />
-    <button @click="getFileList">Get File List</button>
+  <input type="file" @change="handleFileUpload" multiple />
+  <button @click="handleFileUpload">upload</button>
+  <button @click="getFileList">Get File List</button>
+  
+  <div>
+    <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" />
+    <label>Select All</label>
     
-    <div>
-      <input type="checkbox" v-model="selectAll" @change="toggleSelectAll" />
-      <label>Select All</label>
-      
-      <select v-model="selectedCommand">
-        <option value="delete">Delete</option>
-        <option value="download">Download</option>
-        <!-- 添加其他命令选项 -->
-      </select>
-      
-      <button @click="executeCommand">Execute Command</button>
-    </div>
+    <select v-model="selectedCommand">
+      <option value="delete">Delete</option>
+      <option value="download">Download</option>
+      <!-- 添加其他命令选项 -->
+    </select>
     
+    <button @click="executeCommand">Execute Command</button>
+  </div>
+    
+  {{fileList}}
   <ul>
     <li v-for="(file, index) in fileList" :key="index">
       <input type="checkbox" v-model="selectedFiles" :value="file.name" />
@@ -33,17 +35,23 @@ const selectedFiles = ref([]);
 const selectAll = ref(false);
 const selectedCommand = ref('');
 
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const workspaceId = router.currentRoute.value.params.workspaceId;
+
 // 处理文件上传
 const handleFileUpload = async (event) => {
+  console.log(event.target.files);
   const files = event.target.files;
   const formData = new FormData();
 
   for (let i = 0; i < files.length; i++) {
-    formData.append('files', files[i]);
+    formData.append('file', files[i]);
   }
 
   try {
-    await api_axios.post(`/workspace/${workspaceId}/file/upload`, formData);
+    await api_axios.post(`/workspace/${workspaceId}/file`, formData);
     console.log('Files uploaded successfully');
   } catch (error) {
     console.error('Error uploading files:', error);
@@ -53,7 +61,7 @@ const handleFileUpload = async (event) => {
 // 获取文件列表
 const getFileList = async () => {
   //try {
-    const response = await api_axios.get(`/workspace/${workspaceId}/filelist`);
+    const response = await api_axios.get(`/workspace/${workspaceId}/filelist?createDir=true`);
     fileList.value = response.data;
     console.log(fileList.value)
   //} catch (error) {

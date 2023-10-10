@@ -40,7 +40,7 @@ async function logout() {
   const authStore = useAuthStore();
   authStore.user = null;
   authStore.token = null;
-  router.push({ path: "/login" });
+  //router.push({ path: "/login" });
 }
 
 // 在其他需要身份验证的请求中发送令牌

@@ -18,12 +18,15 @@
         {{ item.label }}
       </a>
     </nav>
+    <p>{{login_status}}</p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import config from "../config";
+
+import { useAuthStore } from '../store';
 
 let { name, logoURL } = config;
 
@@ -38,5 +41,9 @@ const navbarItems = reactive([
   { id: 3, label: 'Stat', link: '/stat' },
   { id: 4, label: 'Login', link: '/login' },
 ] as NavbarItem[]);
+
+const authStore = useAuthStore();
+
+let login_status = computed(() => authStore.isAuthenticated ? "Logged in" : "Not logged in" );
 
 </script>

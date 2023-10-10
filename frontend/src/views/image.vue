@@ -12,16 +12,16 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import axios from 'axios'
+import { api_axios } from '../utils/api'
 
 const repositories = ref([]);
 
 (async () => {
-  const qwq = await axios.get('/api/registry/v2/_catalog');
+  const qwq = await api_axios.get('/registry/v2/_catalog');
 
   if (qwq.status === 200) {
     for (let x of qwq.data.repositories) {
-      const tag = await axios.get('/api/registry/v2/' + x + '/tags/list');
+      const tag = await api_axios.get('/registry/v2/' + x + '/tags/list');
       repositories.value.push({
         name: x,
         tags: tag.data.tags
