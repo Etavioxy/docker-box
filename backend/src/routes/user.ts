@@ -38,7 +38,9 @@ router.post('/user/login', async (req, res) => {
     if (user && await validate(password, user.password)) {
         // 生成JWT令牌
         const token = jwt.sign({ userId: user.id }, config.secretKey, { expiresIn: '24h' });
-        res.status(200).json({ user, token }); // 将令牌一同返回给客户端
+        const expiresAt = new Date();
+        expiresAt.setDate(expiresAt.getDate() + 1);
+        res.status(200).json({ user: user.email, token, expiresAt }); // 将令牌一同返回给客户端
     } else {
         res.status(401).send('401 - incorrect password');
     }

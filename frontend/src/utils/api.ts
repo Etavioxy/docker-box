@@ -15,16 +15,18 @@ async function signup(email, password) {
 
 async function login(email, password) {
   const response = await axios.post('/api/user/login', { email, password });
-  
+
   if (response.status === 200) {
-    const { user, token } = response.data;
-    console.log(user, token);
+    const { user, token, expiresAt } = response.data;
+    console.log(user, token, expiresAt);
     localStorage.setItem('user', user);
     localStorage.setItem('token', token);
+    localStorage.setItem('expiresAt', expiresAt);
 
     const authStore = useAuthStore();
     authStore.user = user;
     authStore.token = token;
+    authStore.expiresAt = new Date(expiresAt);
   } else {
     console.error('登录失败');
     throw new Error('登录失败');
@@ -37,9 +39,11 @@ async function logout() {
 
   localStorage.removeItem('user');
   localStorage.removeItem('token');
+  localStorage.removeItem('expiresAt');
   const authStore = useAuthStore();
   authStore.user = null;
   authStore.token = null;
+  authStore.expiresAt = null;
   //router.push({ path: "/login" });
 }
 
@@ -60,6 +64,19 @@ api_axios.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api_axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // 检查是否为JWT过期或状态码为401
+    if (error.response && error.response.status === 401 ) {
+      logout();
+    }
     return Promise.reject(error);
   }
 );
