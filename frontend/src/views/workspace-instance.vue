@@ -1,6 +1,5 @@
 <template>
   <input type="file" @change="handleFileUpload" multiple />
-  <button @click="handleFileUpload">upload</button>
   <button @click="getFileList">Get File List</button>
   
   <div>
@@ -26,9 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import axios from 'axios'
 import {api_axios} from '../utils/api'
+import SaveAs from 'file-saver'
 
 const fileList = ref([]);
 const selectedFiles = ref([]);
@@ -43,6 +43,7 @@ const workspaceId = router.currentRoute.value.params.workspaceId;
 // 处理文件上传
 const handleFileUpload = async (event) => {
   console.log(event.target.files);
+  if( !event.target.files ) return;
   const files = event.target.files;
   const formData = new FormData();
 
@@ -60,14 +61,11 @@ const handleFileUpload = async (event) => {
 
 // 获取文件列表
 const getFileList = async () => {
-  //try {
-    const response = await api_axios.get(`/workspace/${workspaceId}/filelist?createDir=true`);
-    fileList.value = response.data;
-    console.log(fileList.value)
-  //} catch (error) {
-  //  console.error('Error getting file list:', error);
-  //}
+  const response = await api_axios.get(`/workspace/${workspaceId}/filelist?createDir=true`);
+  fileList.value = response.data;
 };
+
+onMounted(() => { getFileList(); });
 
 // 全选/取消全选
 const toggleSelectAll = () => {
@@ -90,8 +88,11 @@ const executeCommand = async () => {
       await Promise.all(selectedFiles.value.map(file => api_axios.delete(`/workspace/${workspaceId}/file/${file}`)));
       console.log('Files deleted successfully');
     } else if (selectedCommand.value === 'download') {
-      await Promise.all(selectedFiles.value.map(file => api_axios.get(`/workspace/${workspaceId}/file/download/${file}`)));
-      console.log('Files downloaded successfully');
+      await Promise.all(selectedFiles.value.map(async file => {
+        const response = await api_axios.get(`/workspace/${workspaceId}/file/download/${file}`, { responseType: 'blob' })
+        SaveAs(response.data, file);
+        console.log(file + ' downloaded successfully');
+      }));
     } else {
       // 添加其他命令的处理逻辑
     }

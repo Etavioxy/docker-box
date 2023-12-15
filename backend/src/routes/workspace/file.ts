@@ -83,7 +83,11 @@ router.get('/workspace/:workspaceid/file/download/:filepath', async (req, res) =
       const files = await fs.readdir(fullpath);
       res.json(files); // TODO return zip
     } else if (stats.isFile()) {
-      res.download(fullpath, (err) => { throw err });
+      res.download(fullpath, (err) => {
+        if( err ){
+          console.error(err);
+        }
+      });
     } else {
       res.sendStatus(500);
     }

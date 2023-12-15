@@ -4,7 +4,6 @@
   <input type="text" v-model="title">
   <button @click="createWorkspace">Create Workspace</button>
 
-  {{list}}
   <ul>
     <li v-for="item in list" :key="item.id">
       <p>Name: {{ item.name }}</p>

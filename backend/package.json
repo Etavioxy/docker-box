@@ -7,7 +7,7 @@
     "build": "swc src -d dist",
     "build:tsc": "tsc",
     "start": "node dist/index.js",
-    "dev": "pnpm run build && pnpm run start -c config/env-dev.json",
+    "dev": "pnpm run build && pnpm run start -c ../config/env-dev.json",
     "watch": "swc src -d dist -w",
     "test": "mocha --recursive"
   },
