@@ -1,5 +1,5 @@
 {
-  "port": 3000,
+  "port": 5173,
   "registry": "https://registry.halzi.one:5000",
   "frontend": {
     "listen": true,
@@ -8,6 +8,6 @@
   "dirs": {
     "workspace": "./uploads",
     "share": "./shares",
-    "sql": "sqlite-example-database/example-db.sqlite"
+    "sql": "src/server/sqlite-example-database/example-db.sqlite"
   }
 }
