@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon -w src/server -x tsx src/server/main.ts -c config/env-dev.json",
     "start": "NODE_ENV=production tsx src/server/main.ts -c config/env.json",
-    "build": "vite build"
+    "build": "vite build",
+    "lint": "tsc --noEmit"
   },
   "dependencies": {
     "@unocss/preset-attributify": "^0.58.3",
@@ -20,6 +21,7 @@
     "fs-extra": "^11.1.1",
     "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^9.0.1",
+    "memory-cache": "^0.2.0",
     "moment": "^2.30.1",
     "node-fetch": "^3.3.2",
     "pinia": "^2.1.7",

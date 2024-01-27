@@ -14,7 +14,7 @@
 import { ref, reactive } from "vue";
 import { api_axios } from '../utils/api'
 
-const repositories = ref([]);
+const repositories = ref<[{name:string, tags:[string]}]>([]);
 
 (async () => {
   const qwq = await api_axios.get('/registry/v2/_catalog');

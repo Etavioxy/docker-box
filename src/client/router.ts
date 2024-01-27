@@ -77,12 +77,11 @@ const router = Router.createRouter({
   ],
 });
 
-import { useAuthStore } from './store';
+import { useAuthStore } from './pinia/authStore';
 
 router.beforeEach((to, _from, next) => {
   // 检查路由的 meta 字段中是否设置了 requiresAuth: true
   if (to.meta.requiresAuth) {
-    console.log('require auth')
     // 检查登录状态
     if (useAuthStore().isAuthenticated) {
       // 已登录，继续导航

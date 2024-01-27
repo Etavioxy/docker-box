@@ -1,12 +1,8 @@
 {
   "port": 5173,
-  "registry": "https://registry.halzi.one:5000",
-  "frontend": {
-    "listen": true,
-    "port": 5173
-  },
+  "registry": "registry.halzi.one:5000",
+  "userdata": "/home/z7z/vue/docker-box-web/webdav",
   "dirs": {
-    "workspace": "./uploads",
     "share": "./shares",
     "sql": "src/server/sqlite-example-database/example-db.sqlite"
   }

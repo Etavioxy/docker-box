@@ -54,7 +54,7 @@
 import FMfile from "./FMfile.vue";
 import FMfolder from "./FMfolder.vue";
 
-import { defineComponent, ref, reactive, computed, watchEffect } from "vue";
+import { ref, reactive, computed, watchEffect } from "vue";
 import { api_axios as axios } from '../utils/api'
 import { useClipboardStore } from '../pinia/clipboardStore';
 
@@ -371,6 +371,10 @@ const moveClipboard = async () => {
     console.error(error);
   }
 };
+
+defineExpose({
+  getFileList
+});
 </script>
 
 <style>

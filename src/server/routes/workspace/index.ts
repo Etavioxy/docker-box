@@ -5,7 +5,7 @@ const {models} = sequelize;
 
 const router = express.Router();
 
-router.get('/workspace', async (req, res) => {
+router.get('/workspace', async (_req, res) => {
 	const workspaces = await models.workspace.findAll();
 	res.status(200).json(workspaces);
 });

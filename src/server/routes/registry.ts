@@ -1,18 +1,21 @@
 import express from 'express';
 import path from 'path'
 import {config} from '../setup.js'
+import cache from '../middlewares/cache.js'
+import fetch from 'node-fetch';
 
 const router = express.Router();
 
-router.get('/registry/*', async (req, res) => {
+// 使用缓存中间件，设置缓存时间为 30 秒
+router.get('/registry/*', cache(30), async (req, res) => {
   try {
-    const url = path.join(config.registry, req.params[0]); // "https://registry.halzi.one:5000"
-    console.log('/registry/* fetch', url);
+    const url = 'https://' + path.join(config.registry, req.params[0]);
     const response = await fetch(url);
     const data = await response.json();
 
     res.json(data);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Failed to fetch data' });
   }
 });

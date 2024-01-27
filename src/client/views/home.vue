@@ -26,7 +26,7 @@
 import { reactive, computed } from "vue";
 import config from "../config";
 
-import { useAuthStore } from '../store';
+import { useAuthStore } from '../pinia/authStore';
 
 let { name, logoURL } = config;
 

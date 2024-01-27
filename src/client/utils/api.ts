@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { useAuthStore } from '../store';
+import { useAuthStore } from '../pinia/authStore';
 
-async function signup(email, password) {
+async function signup(email:string, password:string) {
   const response = await axios.post('/api/user/register', { email, password });
   
   if (response.status === 201) {
@@ -13,20 +13,14 @@ async function signup(email, password) {
   }
 }
 
-async function login(email, password) {
+async function login(email:string, password:string) {
   const response = await axios.post('/api/user/login', { email, password });
 
   if (response.status === 200) {
     const { user, token, expiresAt } = response.data;
     console.log(user, token, expiresAt);
-    localStorage.setItem('user', user);
-    localStorage.setItem('token', token);
-    localStorage.setItem('expiresAt', expiresAt);
 
-    const authStore = useAuthStore();
-    authStore.user = user;
-    authStore.token = token;
-    authStore.expiresAt = new Date(expiresAt);
+    useAuthStore().login(user, token, new Date(expiresAt));
   } else {
     console.error('登录失败');
     throw new Error('登录失败');
@@ -36,14 +30,7 @@ async function login(email, password) {
 // 登出函数
 async function logout() {
   document.cookie = "auth=; path=/";
-
-  localStorage.removeItem('user');
-  localStorage.removeItem('token');
-  localStorage.removeItem('expiresAt');
-  const authStore = useAuthStore();
-  authStore.user = null;
-  authStore.token = null;
-  authStore.expiresAt = null;
+  useAuthStore().logout();
   //router.push({ path: "/login" });
 }
 
@@ -57,7 +44,6 @@ api_axios.interceptors.request.use(
   (config) => {
     const authStore = useAuthStore();
     const token = authStore.token || localStorage.getItem('token');
-    console.log(token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -81,4 +67,4 @@ api_axios.interceptors.response.use(
   }
 );
 
-export { signup, login, logout, api_axios};
+export { signup, login, logout, api_axios };

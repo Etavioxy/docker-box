@@ -41,11 +41,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from "vue";
-import axios from 'axios'
+import { ref } from "vue";
 import {api_axios} from '../utils/api'
 
-const list = ref([]);
+interface Workspace {
+  id: number;
+  name: string;
+  user_id: number;
+  status: string;
+  createdAt: string;
+  removedAt: string;
+  updatedAt: string;
+}
+
+const list = ref([] as [Workspace]);
 
 // 获取文件列表
 const getList = async () => {
@@ -81,12 +90,12 @@ const createWorkspace = async () => {
   await getList();
 };
 
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 const router = useRouter()
 
-function enter(id){
+function enter(id: number){
   console.log('enter', id);
-  router.push({ path: `/workspace/${id}`})
+  router.push({ path: `/workspace/${id}` })
 }
 
 </script>
