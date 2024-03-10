@@ -56,6 +56,9 @@ dependencies:
   pretty-bytes:
     specifier: ^6.1.1
     version: 6.1.1
+  reflect-metadata:
+    specifier: ^0.2.1
+    version: 0.2.1
   sequelize:
     specifier: ^6.32.1
     version: 6.32.1(sqlite3@5.1.6)
@@ -91,15 +94,24 @@ devDependencies:
   '@iconify/utils':
     specifier: ^2.1.9
     version: 2.1.9
+  '@types/bcrypt':
+    specifier: ^5.0.2
+    version: 5.0.2
   '@types/express':
     specifier: ^4.17.21
     version: 4.17.21
+  '@types/memory-cache':
+    specifier: ^0.2.5
+    version: 0.2.5
   '@types/node':
-    specifier: ^20.9.3
+    specifier: ^20.11.5
     version: 20.11.5
   '@types/sequelize':
     specifier: ^4.28.15
     version: 4.28.15
+  '@types/validator':
+    specifier: ^13.11.9
+    version: 13.11.9
   '@vitejs/plugin-vue':
     specifier: ^4.5.0
     version: 4.6.2(vite@5.0.11)(vue@3.4.14)
@@ -108,7 +120,7 @@ devDependencies:
     version: 3.0.3
   sequelize-typescript:
     specifier: ^2.1.5
-    version: 2.1.5(@types/node@20.11.5)(@types/validator@13.11.8)(reflect-metadata@0.2.1)(sequelize@6.32.1)
+    version: 2.1.5(@types/node@20.11.5)(@types/validator@13.11.9)(reflect-metadata@0.2.1)(sequelize@6.32.1)
   vite:
     specifier: ^5.0.2
     version: 5.0.11(@types/node@20.11.5)
@@ -879,6 +891,12 @@ packages:
     requiresBuild: true
     optional: true
 
+  /@types/bcrypt@5.0.2:
+    resolution: {integrity: sha512-6atioO8Y75fNcbmj0G7UjI9lXN2pQ/IGJ2FWT4a/btd0Lk9lQalHLKhkgKVZ3r+spnmWUKfbMi1GEe9wyHQfNQ==}
+    dependencies:
+      '@types/node': 20.11.5
+    dev: true
+
   /@types/bluebird@3.5.42:
     resolution: {integrity: sha512-Jhy+MWRlro6UjVi578V/4ZGNfeCOcNCp0YaFNIUGFKlImowqwb1O/22wDVk3FDGMLqxdpOV3qQHD5fPEH4hK6A==}
     dev: true
@@ -943,6 +961,10 @@ packages:
     resolution: {integrity: sha512-OvlIYQK9tNneDlS0VN54LLd5uiPCBOp7gS5Z0f1mjoJYBrtStzgmJBxONW3U6OZqdtNzZPmn9BS/7WI7BFFcFQ==}
     dev: true
 
+  /@types/memory-cache@0.2.5:
+    resolution: {integrity: sha512-OIKRDDZUFeKT/rsko7/CGnR5qE8xTU8ogzyaaSDSHGkKwlSB/E6RopSF5fReo89khCAcGIoqSi723tDqUe6gYw==}
+    dev: true
+
   /@types/mime@1.3.5:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
 
@@ -975,7 +997,7 @@ packages:
       '@types/bluebird': 3.5.42
       '@types/continuation-local-storage': 3.2.7
       '@types/lodash': 4.14.202
-      '@types/validator': 13.11.8
+      '@types/validator': 13.11.9
     dev: true
 
   /@types/serve-static@1.15.5:
@@ -985,8 +1007,8 @@ packages:
       '@types/mime': 3.0.4
       '@types/node': 20.11.5
 
-  /@types/validator@13.11.8:
-    resolution: {integrity: sha512-c/hzNDBh7eRF+KbCf+OoZxKbnkpaK/cKp9iLQWqB7muXtM+MtL9SUUH8vCFcLn6dH1Qm05jiexK0ofWY7TfOhQ==}
+  /@types/validator@13.11.9:
+    resolution: {integrity: sha512-FCTsikRozryfayPuiI46QzH3fnrOoctTjvOYZkho9BTFLCOZ2rgZJHMOVgCOfttjPJcgOx52EpkY0CMfy87MIw==}
 
   /@unocss/astro@0.58.3(vite@5.0.11):
     resolution: {integrity: sha512-qJL+XkWYJhEIX4AmOtbfb2Zu4holTDpRscfvVci4T+2VWjyE3mgtsyNzi9ZChe/hdEPRa7g26gSpNQeMhjh/Kw==}
@@ -2993,7 +3015,6 @@ packages:
 
   /reflect-metadata@0.2.1:
     resolution: {integrity: sha512-i5lLI6iw9AU3Uu4szRNPPEkomnkjRTaVt9hy/bn5g/oSzekBSMeLZblcjP74AW0vBabqERLLIrz+gR8QYR54Tw==}
-    dev: true
 
   /requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
@@ -3093,7 +3114,7 @@ packages:
     resolution: {integrity: sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==}
     engines: {node: '>= 10.0.0'}
 
-  /sequelize-typescript@2.1.5(@types/node@20.11.5)(@types/validator@13.11.8)(reflect-metadata@0.2.1)(sequelize@6.32.1):
+  /sequelize-typescript@2.1.5(@types/node@20.11.5)(@types/validator@13.11.9)(reflect-metadata@0.2.1)(sequelize@6.32.1):
     resolution: {integrity: sha512-x1CNODct8gJyfZPwEZBU5uVGNwgJI2Fda913ZxD5ZtCSRyTDPBTS/0uXciF+MlCpyqjpmoCAPtudQWzw579bzA==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
@@ -3103,7 +3124,7 @@ packages:
       sequelize: '>=6.20.1'
     dependencies:
       '@types/node': 20.11.5
-      '@types/validator': 13.11.8
+      '@types/validator': 13.11.9
       glob: 7.2.0
       reflect-metadata: 0.2.1
       sequelize: 6.32.1(sqlite3@5.1.6)
@@ -3143,7 +3164,7 @@ packages:
         optional: true
     dependencies:
       '@types/debug': 4.1.12
-      '@types/validator': 13.11.8
+      '@types/validator': 13.11.9
       debug: 4.3.4(supports-color@5.5.0)
       dottie: 2.0.6
       inflection: 1.13.4

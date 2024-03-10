@@ -15,29 +15,6 @@
       <button @click="enter(item.id)">enter</button>
     </li>
   </ul>
-
-  <ul>
-    <li v-for="item in list" :key="item.id">
-      <div style="display: flex; justify-content: space-between;">
-        <div>
-          <p>Name:</p>
-          <p>User ID:</p>
-          <p>Status:</p>
-          <p>Created at:</p>
-          <p>Removed at:</p>
-          <p>Updated at:</p>
-        </div>
-        <div>
-          <p>{{ item.name }}</p>
-          <p>{{ item.user_id }}</p>
-          <p>{{ item.status }}</p>
-          <p>{{ item.createdAt }}</p>
-          <p>{{ item.removedAt }}</p>
-          <p>{{ item.updatedAt }}</p>
-        </div>
-      </div>
-    </li>
-  </ul>
 </template>
 
 <script setup lang="ts">
@@ -72,7 +49,7 @@ getList();
 const title = ref('');
 
 const createWorkspace = async () => {
-  if( !title.value ) return;
+  if( !title.value ) { alert("请输入workspace名称"); return; }
   // 定义一个要传递给api_axios.post方法的参数对象
   const params = {
     name: title.value,

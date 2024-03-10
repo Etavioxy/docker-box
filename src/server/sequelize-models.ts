@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import { Sequelize } from 'sequelize-typescript';
 import {config} from './setup.js';
 
 // In a real app, you should keep the database connection URL as an environment variable.
@@ -11,14 +11,14 @@ const sequelize = new Sequelize({
 	benchmark: true
 });
 
-const modelDefiners = await Promise.all([
+const modelClasses = await Promise.all([
   import('./models/user.js'),
   import('./models/workspace.js')
 ]);
 
 // We define all models according to their files.
-modelDefiners.map(modelDefiner => {
-	modelDefiner.default(sequelize);
+modelClasses.map(modelClass => {
+	sequelize.addModels([modelClass.default]);
 });
 
 sequelize.sync({}).then(()=>{
@@ -26,7 +26,7 @@ sequelize.sync({}).then(()=>{
 })
 
 // We execute any extra setup after the models are defined, such as adding associations.
-function applyExtraSetup(sequelize) {
+function applyExtraSetup(_sequelize: Sequelize) {
 //	const { instrument, orchestra } = sequelize.models;
 //
 //	orchestra.hasMany(instrument);

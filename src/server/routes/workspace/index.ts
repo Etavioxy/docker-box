@@ -1,18 +1,17 @@
 import express from 'express';
-import sequelize from '../../sequelize-models.js';
-
-const {models} = sequelize;
+import Workspace from '../../models/workspace.js';
 
 const router = express.Router();
 
 router.get('/workspace', async (_req, res) => {
-	const workspaces = await models.workspace.findAll();
+	const workspaces = await Workspace.findAll();
+  console.log(workspaces)
 	res.status(200).json(workspaces);
 });
 
 router.get('/workspace/:id', async (req, res) => {
 	const {id} = req.params;
-	const workspace = await models.workspace.findByPk(id);
+	const workspace = await Workspace.findByPk(id);
 	if (workspace) {
 		res.status(200).json(workspace);
 	} else {
@@ -25,7 +24,7 @@ router.post('/workspace', async (req, res) => {
   const {name} = req.body
   const createAt = new Date().toISOString();
   //Date.parse
-  await models.workspace.create({
+  await Workspace.create({
     name,
     user_id,
     createAt
@@ -35,7 +34,7 @@ router.post('/workspace', async (req, res) => {
 
 router.delete('/workspace/:id', async (req, res) => {
 	const {id} = req.params;
-	await models.workspace.destroy({
+	await Workspace.destroy({
 		where: {
 			id: id
 		}

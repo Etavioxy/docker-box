@@ -377,7 +377,15 @@ defineExpose({
 });
 </script>
 
-<style>
+<style scoped>
+a, :deep(a) {
+  color: #646cff;
+}
+
+a:hover, :deep(a):hover {
+  color: #535bf2;
+}
+
 .file-manager {
   width: 800px;
   margin: 0 auto;
@@ -399,7 +407,7 @@ table {
 }
 
 th,
-td {
+td, :deep(td) {
   border: 1px solid #ccc;
   padding: 5px;
   text-align: left;

@@ -1,21 +1,19 @@
 import express from 'express';
-import sequelize from '../sequelize-models.js';
-
-const {models} = sequelize;
+import User from '../models/user.js';
 
 const router = express.Router();
 
 import bcrypt from 'bcrypt';
 
 //密码hash校验
-const validate = async (password,hash) => {
+const validate = async (password: string, hash: string) => {
     const match = await bcrypt.compare(password, hash);
     return match
 };
 
 router.post('/user/register', async (req, res) => {
     const {email,password} = req.body
-    const user = await models.user.create({
+    const user = await User.create({
         email,
         password,
         createAt: new Date().toISOString(),
@@ -31,7 +29,7 @@ import { config } from '../setup.js';
 router.post('/user/login', async (req, res) => {
     console.log('qwq');
     const { email, password } = req.body;
-    const user = await models.user.findOne({
+    const user = await User.findOne({
         where: {
             email
         }
@@ -49,7 +47,7 @@ router.post('/user/login', async (req, res) => {
 
 router.put('/user/password', async (req, res) => {
     const {id,old,newv} = req.body
-    const user = await models.user.findOne({
+    const user = await User.findOne({
         where: {
             id
         }

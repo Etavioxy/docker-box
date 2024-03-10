@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": false,
     "module": "ESNext",

@@ -1,7 +1,8 @@
 {
   "port": 5173,
-  "registry": "registry.halzi.one:5000",
+  "registry": "http://localhost:5000",
   "userdata": "/home/z7z/vue/docker-box-web/webdav",
+  "webdav": "http://localhost:4881",
   "dirs": {
     "share": "./shares",
     "sql": "src/server/sqlite-example-database/example-db.sqlite"

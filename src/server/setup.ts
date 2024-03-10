@@ -3,7 +3,7 @@ import process from 'process';
 
 const args = process.argv.slice(2); // [ '-c', 'config.json' ]
 
-const params = {};
+const params = {} as { [key:string]: string };
 for (let i = 0; i < args.length; i++) {
   const arg = args[i];
   if (arg.startsWith('-')) {

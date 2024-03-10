@@ -8,7 +8,7 @@ import { config } from '../setup.js';
 router.use(
   '/webdav',
   createProxyMiddleware({
-    target: 'http://localhost:4881',
+    target: config.webdav,
     changeOrigin: true,
     pathRewrite: {
       '^/api/webdav': '',

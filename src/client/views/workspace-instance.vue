@@ -15,9 +15,8 @@
   </div>
   <div class="workspace-container" flex="">
     <FileManager ref="fileManagerRef" :workspace="'workspace/'+workspaceId" :path="path"></FileManager>
-    <div w-lg bg-blue border-1px border-color-red>
-      
-    </div>
+    <!-- <div w-lg bg-blue border-1px border-color-red> -->
+    <!-- </div> -->
   </div>
 </template>
 

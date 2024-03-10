@@ -24,8 +24,7 @@
 
 import { defineStore } from 'pinia';
 
-// 定义auth store
-export const useAuthStore = defineStore('auth', {
+const persiststate = {
   // 使用persist选项来配置持久化
   persist: {
     // 指定使用localStorage作为存储
@@ -45,6 +44,11 @@ export const useAuthStore = defineStore('auth', {
       console.log('[logged in]', store.user, store.token, store.expiresAt, Date());
     },
   },
+};
+
+// 定义auth store
+export const useAuthStore = defineStore('auth', {
+  ...persiststate,
   // 定义state
   state: () => ({
     user: null as (string | null),

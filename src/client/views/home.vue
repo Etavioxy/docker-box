@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div w-100vw>
     <a href="/">
       <img w-14em :src="logoURL" alt="" />
     </a>
     <h1>{{ name }}</h1>
-    <nav flex-c-b p-1em id="navbar">
+    <nav flex-c-b p-1em max-w-max ma-a id="navbar">
       <a 
         v-for="item in navbarItems" :key="item.id"
         c-inherit inline-block 

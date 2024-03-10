@@ -1,36 +1,35 @@
-import { DataTypes } from 'sequelize';
+import { Table, Column, Model, DataType, ForeignKey, BelongsTo, CreatedAt, DeletedAt } from 'sequelize-typescript';
+import User from './user'; // Assume you have a User model defined
 
-export default (sequelize) => {
-	sequelize.define('workspace', {
-		id: {
-			allowNull: false,
-			autoIncrement: true,
-			primaryKey: true,
-			type: DataTypes.INTEGER
-		},
-		name: {
-			type: DataTypes.STRING,
-		},
-		user_id: {
-			allowNull: false,
-			type: DataTypes.INTEGER,
-			references: {
-				model: 'users',
-				key: 'id'
-			}
-		},
-		status: {
-			allowNull: false,
-			type: DataTypes.STRING,
-			defaultValue: 'active'
-		},
-		createdAt: {
-			allowNull: false,
-			type: DataTypes.DATE
-		},
-		removedAt: {
-			allowNull: true,
-			type: DataTypes.DATE
-		}
-	});
-};
+@Table({ tableName: 'workspace' })
+export default class Workspace extends Model {
+	@Column({
+		type: DataType.STRING
+	})
+	name!: string;
+
+	@ForeignKey(() => User)
+	@Column({
+		allowNull: false,
+		type: DataType.INTEGER
+	})
+	user_id!: number;
+
+	@BelongsTo(() => User)
+	user!: User;
+
+	@Column({
+		allowNull: false,
+		type: DataType.STRING,
+		defaultValue: 'active'
+	})
+	status!: string;
+
+  @CreatedAt
+  @Column({type: DataType.STRING})
+  createdAt: string | null = null;
+
+  @DeletedAt
+  @Column({type: DataType.STRING})
+  removedAt: string | null = null;
+}
