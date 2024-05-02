@@ -31,4 +31,7 @@ func SetupRoutes(app *fiber.App) {
 	product.Get("/:id", handler.GetProduct)
 	product.Post("/", middleware.Protected(), handler.CreateProduct)
 	product.Delete("/:id", middleware.Protected(), handler.DeleteProduct)
+
+	webdav := api.Group("/webdav")
+	webdav.All("*", handler.ProxyWebdav())
 }
