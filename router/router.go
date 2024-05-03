@@ -6,7 +6,10 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/cache"
 )
+
+import swagger "github.com/arsmn/fiber-swagger/v2"
 
 // SetupRoutes setup router api
 func SetupRoutes(app *fiber.App) {
@@ -32,6 +35,25 @@ func SetupRoutes(app *fiber.App) {
 	product.Post("/", middleware.Protected(), handler.CreateProduct)
 	product.Delete("/:id", middleware.Protected(), handler.DeleteProduct)
 
+	workspace := api.Group("/workspace")
+	workspace.Get("/", handler.GetAllWorkspaces)
+	workspace.Get("/:id", handler.GetWorkspaceByID)
+	workspace.Post("/", middleware.Protected(), handler.CreateWorkspace)
+	workspace.Delete("/:id", middleware.Protected(), handler.DeleteWorkspace)
+
+	workspaceCommand := api.Group("/workspace/:id/command")
+	workspaceCommand.Get("/", handler.GetCommands)
+	workspaceCommand.Get("/:command/help", handler.GetCommandHelp)
+	workspaceCommand.Post("/:command", handler.ExecuteCommand)
+
+	registry := api.Group("/webdav")
+	registry.Get("*", cache.New(cache.Config{
+		Expiration:   30,
+		CacheControl: true,
+	}), handler.GetRegistryData)
+
 	webdav := api.Group("/webdav")
 	webdav.All("*", handler.ProxyWebdav())
+
+	app.Get("/docs/*", swagger.Handler) // default
 }

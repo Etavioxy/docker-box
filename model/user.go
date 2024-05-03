@@ -1,6 +1,9 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+	"gorm.io/gorm"
+)
 
 // User struct
 type User struct {
@@ -9,4 +12,6 @@ type User struct {
 	Email    string `gorm:"uniqueIndex;not null;size:255;" validate:"required,email" json:"email"`
 	Password string `gorm:"not null;" validate:"required,min=6,max=50" json:"password"`
 	Names    string `json:"names"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
