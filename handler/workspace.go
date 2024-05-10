@@ -3,9 +3,9 @@ package handler
 import (
 	"app/database"
 	"app/model"
-	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func GetAllWorkspaces(c *fiber.Ctx) error {
@@ -25,13 +25,14 @@ func GetWorkspaceByID(c *fiber.Ctx) error {
 }
 
 func CreateWorkspace(c *fiber.Ctx) error {
-	userID := c.Locals("userID").(uint)
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := uint(claims["user_id"].(float64))
 	workspace := new(model.Workspace)
 	if err := c.BodyParser(workspace); err != nil {
 		return c.Status(fiber.StatusBadRequest).SendString("Bad Request")
 	}
 	workspace.UserID = userID
-	workspace.CreatedAt = time.Now()
 	database.DB.Create(workspace)
 	return c.SendStatus(fiber.StatusCreated)
 }

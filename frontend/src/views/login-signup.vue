@@ -10,6 +10,15 @@
       </h3>
 
       <div v-if="error !== ''" class="wrong">{{ error }}</div>
+
+      <div v-if="signup">
+        <div i-mdi:user></div>
+        <input input-shortcut
+          type="text"
+          v-model="username"
+          placeholder="username"
+        />
+      </div>
       
       <div>
         <div i-mdi:mail></div>
@@ -63,6 +72,7 @@ const route = useRoute()
 let { name, logoURL } = config;
 
 let error = ref("");
+let username = ref("");
 let email = ref("");
 let password = ref("");
 let passwordConfirm = ref("");
@@ -73,7 +83,7 @@ function toggleMode() {
   signup.value = !signup.value;
 }
 
-async function submit(event) {
+async function submit(event: Event) {
   event.preventDefault();
   event.stopPropagation();
 
@@ -91,7 +101,7 @@ async function submit(event) {
 
   try {
     if ( signup.value===true ) {
-      await api.signup(email.value, password.value);
+      await api.signup(username.value, email.value, password.value);
     }
     await api.login(email.value, password.value);
     console.log('redirect',redirect);

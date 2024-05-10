@@ -80,7 +80,7 @@ func Login(c *fiber.Ctx) error {
 	} else {
 		userModel, err = getUserByUsername(identity)
 	}
-	
+
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"status": "error", "message": "Internal Server Error", "data": err})
 	} else if userModel == nil {
@@ -101,15 +101,17 @@ func Login(c *fiber.Ctx) error {
 
 	token := jwt.New(jwt.SigningMethodHS256)
 
+	expiresAt := time.Now().Add(time.Hour * 72).Unix()
+
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = ud.Username
 	claims["user_id"] = ud.ID
-	claims["exp"] = time.Now().Add(time.Hour * 72).Unix()
+	claims["exp"] = expiresAt
 
 	t, err := token.SignedString([]byte(config.Config("SECRET")))
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": t})
+	return c.JSON(fiber.Map{"status": "success", "message": "Success login", "data": fiber.Map{"user": ud.Username, "token": t, "expiresAt": expiresAt}})
 }

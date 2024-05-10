@@ -1,15 +1,8 @@
 package model
 
-import (
-	"time"
-	"gorm.io/gorm"
-)
-
 type Workspace struct {
-	gorm.Model
-	Name      string
-	UserID    uint `gorm:"foreignKey:UserID"`
-	Status    string `gorm:"type:string;not null;default:'active'"`
-	CreatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	Model
+	Name   string `gorm:"index;not null;size:255;" json:"name"`
+	UserID uint   `gorm:"foreignKey:UserID" json:"user_id"`
+	Status string `gorm:"not null;default:'active'" json:"status"`
 }

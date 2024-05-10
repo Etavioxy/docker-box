@@ -4,15 +4,16 @@ import (
 	"app/config"
 
 	"fmt"
+
 	"github.com/gofiber/fiber/v2"
 
-	"io/ioutil"
+	"io"
 	"log"
 	"net/http"
 )
 
 func GetRegistryData(c *fiber.Ctx) error {
-	url := fmt.Sprintf("%s/%s", config.Registry, c.Params("*"))
+	url := fmt.Sprintf("%s/%s", config.Config("REGISTRY_HOST"), c.Params("*"))
 	response, err := http.Get(url)
 	if err != nil {
 		log.Println(err)
@@ -21,12 +22,13 @@ func GetRegistryData(c *fiber.Ctx) error {
 		})
 	}
 	defer response.Body.Close()
-	data, err := ioutil.ReadAll(response.Body)
+	data, err := io.ReadAll(response.Body)
 	if err != nil {
 		log.Println(err)
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error": "Failed to fetch data",
 		})
 	}
-	return c.JSON(data)
+	//fmt.Println(string(data))
+	return c.Send(data)
 }

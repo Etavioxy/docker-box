@@ -9,8 +9,6 @@ import (
 	// "github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-import _ "swagger/docs"
-
 // @title           Swagger Example API
 // @version         1.0
 // @description     This is a sample server celler server.
@@ -31,12 +29,15 @@ import _ "swagger/docs"
 // @externalDocs.description  OpenAPI
 // @externalDocs.url          https://swagger.io/resources/open-api/
 func main() {
+	webdavRequestMethods := []string{"PROPFIND", "MKCOL", "COPY", "MOVE"}
+
 	app := fiber.New(fiber.Config{
-		Prefork:       true,
-		CaseSensitive: true,
-		StrictRouting: true,
-		ServerHeader:  "Fiber",
-		AppName:       "App Name",
+		Prefork:        true,
+		CaseSensitive:  true,
+		StrictRouting:  true,
+		ServerHeader:   "Fiber",
+		AppName:        "App Name",
+		RequestMethods: append(fiber.DefaultMethods[:], webdavRequestMethods...),
 	})
 	// app.Use(cors.New())
 

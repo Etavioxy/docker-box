@@ -3,13 +3,14 @@ package router
 import (
 	"app/handler"
 	"app/middleware"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/gofiber/fiber/v2/middleware/cache"
-)
+	"github.com/gofiber/fiber/v2/middleware/logger"
 
-import swagger "github.com/arsmn/fiber-swagger/v2"
+	swagger "github.com/arsmn/fiber-swagger/v2"
+)
 
 // SetupRoutes setup router api
 func SetupRoutes(app *fiber.App) {
@@ -24,36 +25,41 @@ func SetupRoutes(app *fiber.App) {
 	// User
 	user := api.Group("/user")
 	user.Get("/:id", handler.GetUser)
-	user.Post("/", handler.CreateUser)
+	user.Post("", handler.CreateUser)
 	user.Patch("/:id", middleware.Protected(), handler.UpdateUser)
 	user.Delete("/:id", middleware.Protected(), handler.DeleteUser)
 
 	// Product
-	product := api.Group("/product")
-	product.Get("/", handler.GetAllProducts)
-	product.Get("/:id", handler.GetProduct)
-	product.Post("/", middleware.Protected(), handler.CreateProduct)
-	product.Delete("/:id", middleware.Protected(), handler.DeleteProduct)
+	//product := api.Group("/product")
+	//product.Get("/", handler.GetAllProducts)
+	//product.Get("/:id", handler.GetProduct)
+	//product.Post("", middleware.Protected(), handler.CreateProduct)
+	//product.Delete("/:id", middleware.Protected(), handler.DeleteProduct)
 
 	workspace := api.Group("/workspace")
-	workspace.Get("/", handler.GetAllWorkspaces)
+	workspace.Get("", handler.GetAllWorkspaces)
 	workspace.Get("/:id", handler.GetWorkspaceByID)
-	workspace.Post("/", middleware.Protected(), handler.CreateWorkspace)
+	workspace.Post("", middleware.Protected(), handler.CreateWorkspace)
 	workspace.Delete("/:id", middleware.Protected(), handler.DeleteWorkspace)
 
 	workspaceCommand := api.Group("/workspace/:id/command")
-	workspaceCommand.Get("/", handler.GetCommands)
-	workspaceCommand.Get("/:command/help", handler.GetCommandHelp)
-	workspaceCommand.Post("/:command", handler.ExecuteCommand)
+	//workspaceCommand.Get("/", middleware.Protected(), handler.GetCommands)
+	workspaceCommand.Get("/:command/help", middleware.Protected(), handler.GetCommandHelp)
+	workspaceCommand.Post("/:command", middleware.Protected(), handler.ExecuteCommand)
 
-	registry := api.Group("/webdav")
-	registry.Get("*", cache.New(cache.Config{
-		Expiration:   30,
+	registry := api.Group("/registry")
+	registry.Get("*", middleware.Protected(), cache.New(cache.Config{
+		Expiration:   10 * time.Minute,
 		CacheControl: true,
 	}), handler.GetRegistryData)
 
+	// https://github.com/gofiber/fiber/issues/1271
 	webdav := api.Group("/webdav")
-	webdav.All("*", handler.ProxyWebdav())
+	webdav.Add("PROPFIND", "*", middleware.Protected(), handler.ProxyWebdav())
+	webdav.Add("MKCOL", "*", middleware.Protected(), handler.ProxyWebdav())
+	webdav.Add("COPY", "*", middleware.Protected(), handler.ProxyWebdav())
+	webdav.Add("MOVE", "*", middleware.Protected(), handler.ProxyWebdav())
+	webdav.All("*", middleware.Protected(), handler.ProxyWebdav())
 
-	app.Get("/docs/*", swagger.Handler) // default
+	api.Get("/docs/*", swagger.HandlerDefault) // default
 }

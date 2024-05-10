@@ -10,7 +10,7 @@
       <p>User ID: {{ item.user_id }}</p>
       <p>Status: {{ item.status }}</p>
       <p>Created at: {{ item.createdAt }}</p>
-      <p>Removed at: {{ item.removedAt }}</p>
+      <p>Removed at: {{ item.deletedAt }}</p>
       <p>Updated at: {{ item.updatedAt }}</p>
       <button @click="enter(item.id)">enter</button>
     </li>
@@ -27,21 +27,21 @@ interface Workspace {
   user_id: number;
   status: string;
   createdAt: string;
-  removedAt: string;
   updatedAt: string;
+  deletedAt: string;
 }
 
-const list = ref([] as [Workspace]);
+const list = ref([] as Workspace[]);
 
 // 获取文件列表
 const getList = async () => {
-  //try {
+  try {
     const response = await api_axios.get(`/workspace`);
     list.value = response.data;
     console.log(list.value)
-  //} catch (error) {
-  //  console.error('Error getting file list:', error);
-  //}
+  } catch (error) {
+    console.error('Error getting file list:', error);
+  }
 };
 
 getList();

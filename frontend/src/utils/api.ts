@@ -1,23 +1,28 @@
 import axios from 'axios';
 import { useAuthStore } from '../pinia/authStore';
 
-async function signup(email:string, password:string) {
-  const response = await axios.post('/api/user', { email, password });
+async function signup(username: string, email:string, password:string) {
+  const response = await axios.post('/api/user', { username, email, password });
   
   if (response.status === 201) {
-    const { user } = response.data;
-    console.log(user);
+    const { username } = response.data.data;
+    console.log(username);
   } else {
     console.error('注册失败');
     throw new Error('注册失败');
   }
 }
-
+interface UserData {
+  ID: string;
+  Username: string;
+  Email: string;
+  Password: string;
+}
 async function login(email:string, password:string) {
-  const response = await axios.post('/api/auth', { email, password });
+  const response = await axios.post('/api/auth/login', { identity: email, password });
 
   if (response.status === 200) {
-    const { user, token, expiresAt } = response.data;
+    const { user, token, expiresAt } = response.data.data;
     console.log(user, token, expiresAt);
 
     useAuthStore().login(user, token, new Date(expiresAt));

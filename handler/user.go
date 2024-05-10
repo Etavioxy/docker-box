@@ -86,7 +86,7 @@ func CreateUser(c *fiber.Ctx) error {
 		Username: user.Username,
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
+	return c.Status(201).JSON(fiber.Map{"status": "success", "message": "Created user", "data": newUser})
 }
 
 // UpdateUser update user
