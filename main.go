@@ -7,10 +7,12 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	// "github.com/gofiber/fiber/v2/middleware/cors"
+
+	_ "app/docs"
 )
 
 // @title           Swagger Example API
-// @version         1.0
+// @version         2.0
 // @description     This is a sample server celler server.
 // @termsOfService  http://swagger.io/terms/
 
@@ -21,8 +23,8 @@ import (
 // @license.name  Apache 2.0
 // @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host      localhost:8080
-// @BasePath  /api/v1
+// @host      localhost:3000
+// @BasePath  /api
 
 // @securityDefinitions.basic  BasicAuth
 

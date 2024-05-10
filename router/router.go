@@ -9,7 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cache"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 
-	swagger "github.com/arsmn/fiber-swagger/v2"
+	swagger "github.com/gofiber/contrib/swagger"
 )
 
 // SetupRoutes setup router api
@@ -61,5 +61,11 @@ func SetupRoutes(app *fiber.App) {
 	webdav.Add("MOVE", "*", middleware.Protected(), handler.ProxyWebdav())
 	webdav.All("*", middleware.Protected(), handler.ProxyWebdav())
 
-	api.Get("/docs/*", swagger.HandlerDefault) // default
+	swaggerCfg := swagger.Config{
+		BasePath: "/api",
+		FilePath: "./docs/swagger.json",
+		Path:     "/docs",
+	}
+
+	app.Use(swagger.New(swaggerCfg))
 }

@@ -8,6 +8,18 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+// ResponseHTTP represents response body of this API
+type ResponseHTTP struct {
+}
+
+// GetAllWorkspaces is a function to get all workspaces data from database
+// @Summary Get all workspaces
+// @Description Get all workspaces
+// @Tags workspaces
+// @Produce json
+// @Success 200 {object} ResponseHTTP{data=[]model.Workspace}
+// @Failure 503 {object} ResponseHTTP{}
+// @Router /api/workspace [get]
 func GetAllWorkspaces(c *fiber.Ctx) error {
 	workspaces := []model.Workspace{}
 	database.DB.Find(&workspaces)
